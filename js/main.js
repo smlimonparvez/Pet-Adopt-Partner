@@ -22,6 +22,20 @@ const displayButtonCategory = (categories) => {
 
 loadButtonCategory();
 
+// Countdown Timer
+function startCountdown() {
+  let countdown = 3;
+  const countdownElement = document.getElementById('countdown');
+  countdownElement.textContent = countdown;
+  const interval = setInterval(() => {
+    countdown--;
+    countdownElement.textContent = countdown;
+    if (countdown === 0) {
+      clearInterval(interval);
+      countdownElement.textContent = 'Successfully Adopted ❤';
+    }
+  }, 1000);
+}
 
 // dynamic card
 const loadCard = () => {
@@ -40,6 +54,18 @@ const loadCardByCategory = (category) => {
 const displayCard = (pets) => {
     const cardContainer = document.getElementById('card-container');
     cardContainer.innerHTML = '';
+    if(pets.length === 0){
+      cardContainer.classList.remove('grid');
+      cardContainer.innerHTML = `
+      <div class="text-center w-2/3 mx-auto rounded-lg shadow-lg border p-10 flex flex-col items-center justify-center">
+        <img src="./images/error.webp" alt="No Pets Available" class=" object-cover">
+        <h1 class="text-2xl font-bold">No Pets Available to Show</h1>
+      </div>
+      `;
+    }
+    else{
+      cardContainer.classList.add('grid');
+    }
     pets.forEach(element => {
         // console.log(element.pet_name);
         const { petId, breed, category, date_of_birth, pet_details, image, price, gender, vaccinated_status, pet_name } = element;
@@ -97,20 +123,6 @@ const displayCard = (pets) => {
         `;
         cardContainer.appendChild(cardDiv);
     });
-}
-
-function startCountdown() {
-  let countdown = 3;
-  const countdownElement = document.getElementById('countdown');
-  countdownElement.textContent = countdown;
-  const interval = setInterval(() => {
-    countdown--;
-    countdownElement.textContent = countdown;
-    if (countdown === 0) {
-      clearInterval(interval);
-      countdownElement.textContent = 'Successfully Adopted ❤';
-    }
-  }, 1000);
 }
 
 // modal
