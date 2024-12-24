@@ -73,10 +73,32 @@ const sorting = (pets) => {
   displayCard(pets);
 }
 
+// sorting by price with loading bar
 const sortingByPrice = () => {
   fetch(`https://openapi.programming-hero.com/api/peddy/pets`)
       .then(response => response.json())
-      .then(data => sorting(data.pets))
+      .then(data => {
+        const cardContainer = document.getElementById("card-container");
+        const totalTime = 2000;
+        const interval = 1000;
+
+      let slice = totalTime / interval;
+
+      const intvId = setInterval(function () {
+        cardContainer.classList.remove("grid");
+        cardContainer.innerHTML = ` 
+          <div class="flex justify-center items-center h-full">
+            <span class="loading loading-bars loading-lg"></span>
+          </div>
+        `;
+        slice -= 1;
+      }, interval);
+
+      setTimeout(function () {
+        clearInterval(intvId);  
+        sorting(data.pets)
+      }, totalTime);
+    });
 }
 
 // dynamic card api
