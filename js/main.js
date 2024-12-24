@@ -14,7 +14,7 @@ const displayButtonCategory = (categories) => {
         const buttonDiv = document.createElement('div');
         buttonDiv.classList.add('text-center');
         buttonDiv.innerHTML = `
-        <button onclick="loadCardByCategory('${category}')" id="btn-${id}" class="btn btn-outline-secondary m-2 px-8"><img src="${category_icon}" alt="${category}" class="w-8 h-8 object-cover"> ${category}</button>
+        <button onclick="loadCardByCategory('${category}'); btnStyle('${id}')" id="btn-${id}" class="btn btn-outline-secondary m-2 px-8 btn-deactive"><img src="${category_icon}" alt="${category}" class="w-8 h-8 object-cover"> ${category}</button>
         `;
         buttonContainer.appendChild(buttonDiv);
     });
@@ -23,6 +23,24 @@ const displayButtonCategory = (categories) => {
 loadButtonCategory();
 
 // common function for
+const btnStyle = (id) => {
+  btnDeactive(id);
+  btnActive(id);
+}
+
+// button deactive
+const btnDeactive = (id) => {
+  const buttons = document.querySelectorAll('.btn-deactive');
+  buttons.forEach(button => {
+    button.classList.remove('border-blue-400', 'rounded-full');
+  });
+}
+// button active
+const btnActive = (id) => {
+  const button = document.getElementById(`btn-${id}`);
+  button.classList.add('border-blue-400', 'rounded-full');
+}
+
 // Countdown Timer for modal
 function startCountdown() {
   let countdown = 3;
@@ -61,22 +79,6 @@ const sortingByPrice = () => {
       .then(data => sorting(data.pets))
 }
 
-// // loading spinner
-// const loadingSpinner = (isLoading) => {
-//   const loaderSection = document.getElementById('loader');
-//   if (isLoading) {
-//     loaderSection.classList.remove('hidden');
-//     setTimeout(() => {
-//       loaderSection.classList.add('hidden');
-//     }, 2000); // Ensure spinner shows for at least 2 seconds
-//   } else {
-//     setTimeout(() => {
-//       loaderSection.classList.add('hidden');
-//     }, 2000); // Ensure spinner shows for at least 2 seconds
-//   }
-// }
-
-
 // dynamic card api
 const loadCard = () => {
     fetch(`https://openapi.programming-hero.com/api/peddy/pets`)
@@ -84,11 +86,32 @@ const loadCard = () => {
         .then(data => displayCard(data.pets))
 };
 
-// dynamic card api by category
-const loadCardByCategory = (category) => {
+// dynamic card api by category with loading bar
+const loadCardByCategory = (category) => { 
   fetch(`https://openapi.programming-hero.com/api/peddy/category/${category}`)
-      .then(response => response.json())
-      .then(data => displayCard(data.data))
+    .then(response => response.json())
+    .then(data => {
+      const cardContainer = document.getElementById("card-container");
+      const totalTime = 2000;
+      const interval = 1000;
+
+      let slice = totalTime / interval;
+
+      const intvId = setInterval(function () {
+        cardContainer.classList.remove("grid");
+        cardContainer.innerHTML = ` 
+          <div class="flex justify-center items-center h-full">
+            <span class="loading loading-bars loading-lg"></span>
+          </div>
+        `;
+        slice -= 1;
+      }, interval);
+
+      setTimeout(function () {
+        clearInterval(intvId);  
+        displayCard(data.data);
+      }, totalTime);
+    });
 };
 
 const displayCard = (pets) => {
