@@ -14,7 +14,7 @@ const displayButtonCategory = (categories) => {
         const buttonDiv = document.createElement('div');
         buttonDiv.classList.add('text-center');
         buttonDiv.innerHTML = `
-        <button onclick="loadCardByCategory('${element.category}')" id="btn-${id}" class="btn btn-outline-secondary m-2 px-8"><img src="${category_icon}" alt="${category}" class="w-8 h-8 object-cover"> ${category}</button>
+        <button onclick="loadCardByCategory('${category}')" id="btn-${id}" class="btn btn-outline-secondary m-2 px-8"><img src="${category_icon}" alt="${category}" class="w-8 h-8 object-cover"> ${category}</button>
         `;
         buttonContainer.appendChild(buttonDiv);
     });
@@ -22,7 +22,8 @@ const displayButtonCategory = (categories) => {
 
 loadButtonCategory();
 
-// Countdown Timer
+// common function for
+// Countdown Timer for modal
 function startCountdown() {
   let countdown = 3;
   const countdownElement = document.getElementById('countdown');
@@ -39,7 +40,7 @@ function startCountdown() {
 
 // image container
 const imageContainer = (image, pet_name) => {
-  console.log( pet_name);
+  // console.log( pet_name);
   const imageContainer = document.getElementById('image-container');
   const imageDiv = document.createElement('div'); 
   imageDiv.innerHTML = ` 
@@ -48,14 +49,42 @@ const imageContainer = (image, pet_name) => {
   imageContainer.appendChild(imageDiv);
 }
 
-// dynamic card
+// sort by price
+const sorting = (pets) => {
+  pets.sort((a, b) => a.price - b.price);
+  displayCard(pets);
+}
+
+const sortingByPrice = () => {
+  fetch(`https://openapi.programming-hero.com/api/peddy/pets`)
+      .then(response => response.json())
+      .then(data => sorting(data.pets))
+}
+
+// // loading spinner
+// const loadingSpinner = (isLoading) => {
+//   const loaderSection = document.getElementById('loader');
+//   if (isLoading) {
+//     loaderSection.classList.remove('hidden');
+//     setTimeout(() => {
+//       loaderSection.classList.add('hidden');
+//     }, 2000); // Ensure spinner shows for at least 2 seconds
+//   } else {
+//     setTimeout(() => {
+//       loaderSection.classList.add('hidden');
+//     }, 2000); // Ensure spinner shows for at least 2 seconds
+//   }
+// }
+
+
+// dynamic card api
 const loadCard = () => {
     fetch(`https://openapi.programming-hero.com/api/peddy/pets`)
         .then(response => response.json())
         .then(data => displayCard(data.pets))
 };
 
-// dynamic card by category
+// dynamic card api by category
 const loadCardByCategory = (category) => {
   fetch(`https://openapi.programming-hero.com/api/peddy/category/${category}`)
       .then(response => response.json())
@@ -150,14 +179,12 @@ const displayModalData = (petData) => {
   // console.log(petData);
   const { petId, breed, category, date_of_birth, pet_details, image, price, gender, vaccinated_status, pet_name } = petData;
   const modalContainer = document.getElementById('modal-container');
-  // modalContainer.innerHTML = '';
-      // const modalDiv = document.createElement('div');
        modalContainer.innerHTML = `
       <div class="p-4 bg-base-100 rounded-lg shadow-lg border ">
          
             <img src="${image}" alt="${pet_name}" class="w-full rounded-lg mb-3">
            
-            <h2 class="text-xl font-bold">${pet_name}</h2>
+            <h2 class="text-xl font-bold mb-2">${pet_name}</h2>
           
             <div class="flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
