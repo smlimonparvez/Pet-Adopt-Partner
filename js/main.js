@@ -32,17 +32,17 @@ const btnStyle = (id) => {
 const btnDeactive = (id) => {
   const buttons = document.querySelectorAll('.btn-deactive');
   buttons.forEach(button => {
-    button.classList.remove('border-blue-400', 'rounded-full', 'bg-lime-200');
+    button.classList.remove('border-blue-400', 'rounded-full', 'bg-emerald-100');
   });
 }
 // button active
 const btnActive = (id) => {
   const button = document.getElementById(`btn-${id}`);
-  button.classList.add('border-blue-400', 'rounded-full', 'bg-lime-200');
+  button.classList.add('border-blue-400', 'rounded-full', 'bg-emerald-100');
 }
 
 // Countdown Timer for modal
-function startCountdown(petId) {
+const startCountdown = (petId) => {
   let countdown = 3;
   const btnAdopt = document.getElementById(`btn-adopt-${petId}`);
   const countdownElement = document.getElementById('countdown');
@@ -99,7 +99,7 @@ const sortingByPrice = () => {
 
       setTimeout(function () {
         clearInterval(intvId);  
-        sorting(data.pets)
+        sorting(data.pets);
       }, totalTime);
     });
 }
@@ -135,6 +135,13 @@ const loadCardByCategory = (category) => {
       setTimeout(function () {
         clearInterval(intvId);  
         displayCard(data.data);
+        // document.getElementById('btn-sorting').addEventListener('click', function (){
+        //   if (data.data.length > 0) {
+        //     sorting(data.data);
+        //     return;
+        // }
+        // });
+        
       }, totalTime);
     });
 };
@@ -147,9 +154,10 @@ const displayCard = (pets) => {
     if(pets.length === 0){
       cardContainer.classList.remove('grid');
       cardContainer.innerHTML = `
-      <div class="text-center w-2/3 mx-auto rounded-lg shadow-lg border p-10 flex flex-col items-center justify-center">
+      <div class="text-center w-11/12 mx-auto rounded-lg shadow-lg border p-10 flex flex-col items-center justify-center">
         <img src="./images/error.webp" alt="No Pets Available" class=" object-cover">
         <h1 class="text-2xl font-bold">No Pets Available to Show</h1>
+        <p>Discover the joy of adopting a pet and giving them a loving home. Start your journey with us today. Find your perfect companion and make a difference.</p>
       </div>
       `;
     }
