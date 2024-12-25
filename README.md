@@ -16,4 +16,4 @@ c) Template literal <br>
 D) Use of foreach method <br>
 e) Use of sort technic
 
-5. __Live link to the deployed project__:
+5. __Live link to the deployed project__: https://peddypartner.netlify.app/
