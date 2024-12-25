@@ -22,7 +22,7 @@ const displayButtonCategory = (categories) => {
 
 loadButtonCategory();
 
-// common function for
+// common function 
 const btnStyle = (id) => {
   btnDeactive(id);
   btnActive(id);
@@ -35,6 +35,7 @@ const btnDeactive = (id) => {
     button.classList.remove('border-blue-400', 'rounded-full', 'bg-emerald-100');
   });
 }
+
 // button active
 const btnActive = (id) => {
   const button = document.getElementById(`btn-${id}`);
@@ -70,7 +71,7 @@ const imageContainer = (image, pet_name) => {
   imageContainer.appendChild(imageDiv);
 }
 
-// sort by price funtion
+// sort by price feature funtion
 const sorting = (pets) => {
   pets.sort((a, b) => b.price - a.price);
   displayCard(pets);
@@ -137,8 +138,7 @@ const loadCardByCategory = (category) => {
         displayCard(data.data);
         // document.getElementById('btn-sorting').addEventListener('click', function (){
         //   if (data.data.length > 0) {
-        //     sorting(data.data);
-        //     return;
+        //     sorting(data.data);  
         // }
         // });
         
