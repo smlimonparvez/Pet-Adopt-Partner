@@ -65,7 +65,7 @@ const imageContainer = (image, pet_name) => {
   const imageContainer = document.getElementById('image-container');
   const imageDiv = document.createElement('div'); 
   imageDiv.innerHTML = ` 
-    <img src="${image}" alt="${pet_name}" class="w-28 h-28  object-cover rounded-lg flex-grow ">
+    <img src="${image}" alt="${pet_name}" class="w-full object-cover rounded-lg flex-grow ">
   `;
   imageContainer.appendChild(imageDiv);
 }
