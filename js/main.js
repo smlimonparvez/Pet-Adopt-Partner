@@ -32,18 +32,19 @@ const btnStyle = (id) => {
 const btnDeactive = (id) => {
   const buttons = document.querySelectorAll('.btn-deactive');
   buttons.forEach(button => {
-    button.classList.remove('border-blue-400', 'rounded-full');
+    button.classList.remove('border-blue-400', 'rounded-full', 'bg-lime-200');
   });
 }
 // button active
 const btnActive = (id) => {
   const button = document.getElementById(`btn-${id}`);
-  button.classList.add('border-blue-400', 'rounded-full');
+  button.classList.add('border-blue-400', 'rounded-full', 'bg-lime-200');
 }
 
 // Countdown Timer for modal
-function startCountdown() {
+function startCountdown(petId) {
   let countdown = 3;
+  const btnAdopt = document.getElementById(`btn-adopt-${petId}`);
   const countdownElement = document.getElementById('countdown');
   countdownElement.textContent = countdown;
   const interval = setInterval(() => {
@@ -52,6 +53,8 @@ function startCountdown() {
     if (countdown === 0) {
       clearInterval(interval);
       countdownElement.textContent = 'Successfully Adopted ❤';
+      btnAdopt.innerText = 'Adopted';
+      btnAdopt.disabled = true;
     }
   }, 1000);
 }
@@ -67,9 +70,9 @@ const imageContainer = (image, pet_name) => {
   imageContainer.appendChild(imageDiv);
 }
 
-// sort by price
+// sort by price funtion
 const sorting = (pets) => {
-  pets.sort((a, b) => a.price - b.price);
+  pets.sort((a, b) => b.price - a.price);
   displayCard(pets);
 }
 
@@ -203,7 +206,7 @@ const displayCard = (pets) => {
                 </svg>
              </button>
 
-              <button onclick="my_modal_2.showModal(); startCountdown()" class="btn bg-white border-blue-200 rounded-lg px-4 hover:border-blue-400"">Adopt</button>
+              <button onclick="my_modal_2.showModal(); startCountdown('${petId}')" id='btn-adopt-${petId}' class="btn bg-white border-blue-200 rounded-lg px-4 hover:border-blue-400"">Adopt</button>
             
               <button onclick="my_modal_1.showModal(); loadModalData('${petId}')" class="btn bg-white border-blue-200 rounded-lg px-4 hover:border-blue-400"">Details</button>
             </div>
